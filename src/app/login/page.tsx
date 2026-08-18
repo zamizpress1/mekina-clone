@@ -51,22 +51,25 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-zinc-950 p-4 relative overflow-hidden">
+      
+      {/* MASSIVE FLOATING BACK BUTTON */}
+      <div className="absolute top-24 left-4 md:top-28 md:left-8 z-50">
+        <Link 
+          href="/" 
+          className="flex items-center gap-2 text-zinc-300 bg-zinc-900/90 backdrop-blur-md px-5 py-2.5 rounded-full border border-zinc-700/80 hover:bg-zinc-800 hover:text-white transition-all shadow-xl hover:scale-105 active:scale-95"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span className="font-bold tracking-wide">Back to Cars</span>
+        </Link>
+      </div>
+
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-green-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/50 rounded-3xl p-8 shadow-2xl relative z-10 pt-16">
+      <div className="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/50 rounded-3xl p-8 shadow-2xl relative z-10 mt-12">
         
-        {/* Upgraded Back Button */}
-        <Link 
-          href="/" 
-          className="absolute top-6 left-6 text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 group z-50 bg-zinc-950/50 px-3 py-1.5 rounded-lg border border-zinc-800/50"
-        >
-          <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          <span className="text-sm font-semibold">Back</span>
-        </Link>
-
         {/* Security Trust Badge */}
         <div className="flex justify-center mb-6">
           <div className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 border border-green-500/20">
@@ -104,7 +107,6 @@ export default function LoginPage() {
           >
             Sign Up
           </button>
-          {/* Animated Slider Background */}
           <div 
             className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-zinc-800 rounded-lg shadow-sm transition-transform duration-300 ease-out ${
               isLoginView ? 'translate-x-0' : 'translate-x-[calc(100%+4px)]'
