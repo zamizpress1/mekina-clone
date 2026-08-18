@@ -54,22 +54,22 @@ export default function LoginPage() {
       {/* Subtle Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-green-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/50 rounded-3xl p-8 shadow-2xl relative z-10 pt-10">
+      <div className="w-full max-w-md bg-zinc-900/80 backdrop-blur-xl border border-zinc-800/50 rounded-3xl p-8 shadow-2xl relative z-10 pt-16">
         
-        {/* NEW: Sleek Back Button */}
+        {/* Upgraded Back Button */}
         <Link 
           href="/" 
-          className="absolute top-6 left-6 text-zinc-500 hover:text-white transition-colors flex items-center gap-1 group"
+          className="absolute top-6 left-6 text-zinc-400 hover:text-white transition-colors flex items-center gap-1.5 group z-50 bg-zinc-950/50 px-3 py-1.5 rounded-lg border border-zinc-800/50"
         >
           <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          <span className="text-xs font-semibold">Back</span>
+          <span className="text-sm font-semibold">Back</span>
         </Link>
 
         {/* Security Trust Badge */}
         <div className="flex justify-center mb-6">
-          <div className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 border border-green-500/20 mt-4">
+          <div className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 border border-green-500/20">
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
@@ -120,21 +120,17 @@ export default function LoginPage() {
                 <select
                   value={accountType}
                   onChange={(e) => setAccountType(e.target.value)}
-                  className="w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all appearance-none cursor-pointer"
+                  className="w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all appearance-none cursor-pointer relative z-10"
                 >
                   <option value="private_seller">Private Seller</option>
                   <option value="dealership">Dealership</option>
                   <option value="broker">Broker</option>
                 </select>
-                {/* Arrow perfectly positioned */}
-                <svg 
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none z-20">
+                  <svg className="w-5 h-5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
               </div>
             </div>
           )}
