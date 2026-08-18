@@ -104,22 +104,25 @@ export default function LoginPage() {
           {!isLoginView && (
             <div className="animate-in fade-in slide-in-from-top-2 duration-300">
               <label className="block text-sm font-medium text-zinc-300 mb-1.5 ml-1">I am a...</label>
-              {/* NEW: Relative container with absolute SVG arrow */}
               <div className="relative">
                 <select
                   value={accountType}
                   onChange={(e) => setAccountType(e.target.value)}
-                  className="w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all appearance-none cursor-pointer relative z-10"
+                  className="w-full bg-zinc-950/50 border border-zinc-800 text-white rounded-xl pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all appearance-none cursor-pointer"
                 >
                   <option value="private_seller">Private Seller</option>
                   <option value="dealership">Dealership</option>
                   <option value="broker">Broker</option>
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none z-20">
-                  <svg className="w-5 h-5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
+                {/* Arrow perfectly positioned */}
+                <svg 
+                  className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
             </div>
           )}
