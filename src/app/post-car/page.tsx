@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '../../utils/supabase/client';
 import imageCompression from 'browser-image-compression';
@@ -17,12 +17,25 @@ export default function PostCarPage() {
   const [description, setDescription] = useState('');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   
-  // Dynamic loading text to keep users informed
   const [loadingStatus, setLoadingStatus] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true); // NEW: Auth loading state
   
   const router = useRouter();
   const supabase = createClient();
+
+  // NEW: Instantly redirect unauthenticated users before they even see the form
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login'); // Send them straight to login instantly
+      } else {
+        setIsCheckingAuth(false); // Only show the form if they are logged in
+      }
+    };
+    checkUser();
+  }, [router, supabase.auth]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -35,10 +48,16 @@ export default function PostCarPage() {
     setIsLoading(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      const uploaderId = user ? user.id : 'guest_user';
-      const storageFolder = user ? user.id : 'guests';
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      
+      // Secondary safety check just in case
+      if (!authUser) {
+        router.push('/login');
+        return; 
+      }
 
+      const uploaderId = authUser.id;
+      const storageFolder = authUser.id;
       let imageUrls: string[] = [];
 
       if (imageFiles.length > 0) {
@@ -46,16 +65,14 @@ export default function PostCarPage() {
           const file = imageFiles[i];
           setLoadingStatus(`Optimizing photo ${i + 1} of ${imageFiles.length}...`);
 
-          // Fast & light compression settings
           const options = {
-            maxSizeMB: 0.2, // Target ~200KB for blazing fast uploads
-            maxWidthOrHeight: 1000, // Perfect for mobile screens and web galleries
+            maxSizeMB: 0.2, 
+            maxWidthOrHeight: 1000, 
             useWebWorker: true,
-            maxIteration: 5, // Prevents it from spending too much time trying to over-optimize
+            maxIteration: 5, 
           };
           
           const compressedFile = await imageCompression(file, options);
-          
           setLoadingStatus(`Uploading photo ${i + 1} of ${imageFiles.length}...`);
 
           const fileExt = compressedFile.name.split('.').pop() || 'jpg';
@@ -106,11 +123,16 @@ export default function PostCarPage() {
     }
   };
 
+  // NEW: Show a black screen while checking so the form doesn't "flash" before redirecting
+  if (isCheckingAuth) {
+    return <div className="min-h-screen bg-zinc-950 flex items-center justify-center text-zinc-400">Securely connecting...</div>;
+  }
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-zinc-950 p-4 pt-24 pb-12">
       <div className="w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-xl">
         <h1 className="text-2xl font-bold text-white mb-2">Post a Car for Sale</h1>
-        <p className="text-zinc-400 text-sm mb-6">No account required. Your phone number remains private for broker verification.</p>
+        <p className="text-zinc-400 text-sm mb-6">Account verified. Your phone number remains private for broker verification.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           
