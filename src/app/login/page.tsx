@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '../../utils/supabase/client';
 
 export default function LoginPage() {
-  const [isLoginView, setIsLoginView] = useState(true);
+  const [isLoginView, setIsLoginView] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [accountType, setAccountType] = useState('private_seller');
@@ -24,8 +24,8 @@ export default function LoginPage() {
           password,
         });
         if (error) throw error;
-        alert('Success! You are now logged in.');
-        router.push('/'); // Redirects to the homepage
+        
+        router.push('/'); // Redirects to the homepage on success
       } else {
         const { error } = await supabase.auth.signUp({
           email,
@@ -35,8 +35,10 @@ export default function LoginPage() {
           }
         });
         if (error) throw error;
-        alert('Success! Account created and logged in.');
-        router.push('/'); // Redirects to the homepage
+        
+        alert('Success! Account created. You can now log in.');
+        setIsLoginView(true); // Automatically switch back to login mode
+        setPassword(''); // Clear the password for security
       }
     } catch (error: any) {
       alert(error.message || 'An error occurred during authentication.');
@@ -116,7 +118,7 @@ export default function LoginPage() {
             disabled={isLoading}
             className="w-full bg-white text-black font-semibold rounded-lg px-4 py-3 mt-4 hover:bg-zinc-200 transition-colors disabled:opacity-50"
           >
-            {isLoading ? 'Processing...' : 'Access Marketplace'}
+            {isLoading ? 'Processing...' : (isLoginView ? 'Log In' : 'Create Account')}
           </button>
         </form>
       </div>
