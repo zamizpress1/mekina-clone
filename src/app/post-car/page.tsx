@@ -4,7 +4,22 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '../../utils/supabase/client';
 import imageCompression from 'browser-image-compression';
+const router = useRouter();
+const [currentUser, setCurrentUser] = useState<any>(null);
 
+useEffect(() => {
+  const checkUser = async () => {
+    const supabase = createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      alert('Please sign in first to list a car.');
+      router.push('/login');
+    } else {
+      setCurrentUser(session.user);
+    }
+  };
+  checkUser();
+}, [router]);
 export default function PostCarPage() {
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -16,11 +31,11 @@ export default function PostCarPage() {
   const [condition, setCondition] = useState('Brand New');
   const [description, setDescription] = useState('');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  
+
   const [loadingStatus, setLoadingStatus] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true); // NEW: Auth loading state
-  
+
   const router = useRouter();
   const supabase = createClient();
 
@@ -49,11 +64,11 @@ export default function PostCarPage() {
 
     try {
       const { data: { user: authUser } } = await supabase.auth.getUser();
-      
+
       // Secondary safety check just in case
       if (!authUser) {
         router.push('/login');
-        return; 
+        return;
       }
 
       const uploaderId = authUser.id;
@@ -66,12 +81,12 @@ export default function PostCarPage() {
           setLoadingStatus(`Optimizing photo ${i + 1} of ${imageFiles.length}...`);
 
           const options = {
-            maxSizeMB: 0.2, 
-            maxWidthOrHeight: 1000, 
+            maxSizeMB: 0.2,
+            maxWidthOrHeight: 1000,
             useWebWorker: true,
-            maxIteration: 5, 
+            maxIteration: 5,
           };
-          
+
           const compressedFile = await imageCompression(file, options);
           setLoadingStatus(`Uploading photo ${i + 1} of ${imageFiles.length}...`);
 
@@ -88,7 +103,7 @@ export default function PostCarPage() {
           const { data: { publicUrl } } = supabase.storage
             .from('car-images')
             .getPublicUrl(filePath);
-            
+
           imageUrls.push(publicUrl);
         }
       }
@@ -108,14 +123,14 @@ export default function PostCarPage() {
           fuel_type: fuelType,
           condition,
           description,
-          image_url: imageUrls[0] || null, 
-          image_urls: imageUrls 
+          image_url: imageUrls[0] || null,
+          image_urls: imageUrls
         }
       ]);
 
       if (error) throw error;
-      
-      router.push('/'); 
+
+      router.push('/');
     } catch (error: any) {
       alert(error.message || 'Error creating listing');
       setIsLoading(false);
@@ -135,15 +150,15 @@ export default function PostCarPage() {
         <p className="text-zinc-400 text-sm mb-6">Account verified. Your phone number remains private for broker verification.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          
+
           <div className="mb-4 bg-zinc-950 p-4 rounded-xl border border-zinc-800">
             <label className="block text-sm font-medium text-zinc-300 mb-2">Upload Car Photos (Multiple allowed)</label>
-            <input 
-              type="file" 
-              accept="image/*" 
-              multiple 
+            <input
+              type="file"
+              accept="image/*"
+              multiple
               required
-              onChange={handleImageChange} 
+              onChange={handleImageChange}
               className="w-full text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-zinc-200 transition"
             />
             {imageFiles.length > 0 && (
@@ -177,7 +192,7 @@ export default function PostCarPage() {
             <label className="block text-sm font-medium text-zinc-300 mb-1">Your Private Phone Number</label>
             <input type="text" required value={sellerPhone} onChange={(e) => setSellerPhone(e.target.value)} className="w-full bg-zinc-950 border border-zinc-800 text-white rounded-lg px-4 py-2" placeholder="+251930175564" />
           </div>
-          
+
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-1">Transmission</label>
@@ -186,7 +201,7 @@ export default function PostCarPage() {
                 <option value="Manual">Manual</option>
               </select>
             </div>
-             <div>
+            <div>
               <label className="block text-sm font-medium text-zinc-300 mb-1">Fuel Type</label>
               <select value={fuelType} onChange={(e) => setFuelType(e.target.value)} className="w-full bg-zinc-950 border border-zinc-800 text-white rounded-lg px-4 py-2">
                 <option value="Benzine">Benzine</option>
