@@ -13,7 +13,7 @@ useEffect(() => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
       alert('Please sign in first to list a car.');
-      router.push('/login');
+      router.push('/login?tab=signup');
     } else {
       setCurrentUser(session.user);
     }
