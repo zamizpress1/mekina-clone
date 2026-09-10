@@ -10,7 +10,7 @@ export default function LoginPage() {
   const supabase = createClient();
 
   // Default to Log In view
-  const [isLoginView, setIsLoginView] = useState(true);
+  const [isLoginView, setIsLoginView] = useState(false);
 
   // Safely check the browser URL for the signup tab
   useEffect(() => {
