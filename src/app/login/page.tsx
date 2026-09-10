@@ -27,38 +27,40 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [accountType, setAccountType] = useState('private_seller');
   const [isLoading, setIsLoading] = useState(false);
-  e.preventDefault();
-  setIsLoading(true);
 
-  try {
-    if (isLoginView) {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
 
-      router.push('/');
-    } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { role: accountType }
-        }
-      });
-      if (error) throw error;
+    try {
+      if (isLoginView) {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) throw error;
 
-      alert('Success! Account created. You can now log in.');
-      setIsLoginView(true);
-      setPassword('');
+        router.push('/');
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { role: accountType }
+          }
+        });
+        if (error) throw error;
+
+        alert('Success! Account created. You can now log in.');
+        setIsLoginView(true);
+        setPassword('');
+      }
+    } catch (error: any) {
+      alert(error.message || 'An error occurred during authentication.');
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error: any) {
-    alert(error.message || 'An error occurred during authentication.');
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
 return (
   <main className="min-h-screen flex items-center justify-center bg-zinc-950 p-4 relative overflow-hidden">
