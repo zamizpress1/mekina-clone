@@ -7,24 +7,24 @@ import { createClient } from '../utils/supabase/client';
 export default function Home() {
   const [cars, setCars] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Filtering states
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMake, setSelectedMake] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  
+
   // Pagination states
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const CARS_PER_PAGE = 9; 
+  const CARS_PER_PAGE = 9;
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const supabase = createClient();
 
   useEffect(() => {
     fetchCars(true);
-  }, [searchTerm, selectedMake, minPrice, maxPrice]); 
+  }, [searchTerm, selectedMake, minPrice, maxPrice]);
 
   const fetchCars = async (resetList = false) => {
     if (resetList) {
@@ -40,7 +40,7 @@ export default function Home() {
 
     let query = supabase
       .from('car_listings')
-      .select('*', { count: 'exact' }) 
+      .select('*', { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(fromIndex, toIndex);
 
@@ -59,12 +59,12 @@ export default function Home() {
       } else {
         setCars((prevCars) => [...prevCars, ...data]);
       }
-      
+
       if (count !== null) {
         setHasMore(fromIndex + data.length < count);
       }
     }
-    
+
     setIsLoading(false);
     setIsLoadingMore(false);
   };
@@ -85,12 +85,12 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white relative selection:bg-green-500/30">
-      
+
       {/* Premium Hero Section */}
       <section className="relative pt-32 pb-16 px-4 md:px-8 overflow-hidden border-b border-zinc-900/50">
         {/* Background Ambient Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-green-500/10 blur-[100px] rounded-full pointer-events-none"></div>
-        
+
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-6">
             <div>
@@ -100,7 +100,7 @@ export default function Home() {
               </div>
               <p className="text-zinc-400">Discover the best vehicles in Addis Ababa.</p>
             </div>
-            <Link href="/post-car" className="bg-white text-black font-bold px-8 py-3.5 rounded-xl hover:bg-zinc-200 hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] whitespace-nowrap">
+            <Link href="/list-car" className="bg-white text-black font-bold px-8 py-3.5 rounded-xl hover:bg-zinc-200 hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] whitespace-nowrap">
               Post a Car
             </Link>
           </div>
@@ -111,19 +111,19 @@ export default function Home() {
               <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                 <svg className="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
               </div>
-              <input 
-                type="text" 
-                placeholder="Search model or year..." 
+              <input
+                type="text"
+                placeholder="Search model or year..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full bg-transparent text-white rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition placeholder:text-zinc-600"
               />
             </div>
-            
+
             <div className="w-px bg-zinc-800 hidden md:block my-2"></div>
-            
+
             <div className="relative md:w-48">
-              <select 
+              <select
                 value={selectedMake}
                 onChange={(e) => setSelectedMake(e.target.value)}
                 className="w-full bg-transparent text-white rounded-xl pl-4 pr-10 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition appearance-none cursor-pointer"
@@ -141,16 +141,16 @@ export default function Home() {
             <div className="w-px bg-zinc-800 hidden md:block my-2"></div>
 
             <div className="flex gap-2 md:w-80">
-              <input 
-                type="number" 
-                placeholder="Min Price" 
+              <input
+                type="number"
+                placeholder="Min Price"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
                 className="w-full bg-transparent text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition placeholder:text-zinc-600"
               />
-              <input 
-                type="number" 
-                placeholder="Max Price" 
+              <input
+                type="number"
+                placeholder="Max Price"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
                 className="w-full bg-transparent text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition placeholder:text-zinc-600"
@@ -181,13 +181,13 @@ export default function Home() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {cars.map((car) => {
-                  const primaryImage = car.image_urls && car.image_urls.length > 0 
-                    ? car.image_urls[0] 
+                  const primaryImage = car.image_urls && car.image_urls.length > 0
+                    ? car.image_urls[0]
                     : car.image_url;
 
                   return (
                     <div key={car.id} className="group bg-zinc-900/60 backdrop-blur-lg border border-zinc-800/60 rounded-3xl overflow-hidden hover:border-zinc-700 transition-all duration-500 shadow-xl flex flex-col">
-                      
+
                       {/* Image Container with Link */}
                       <Link href={`/${car.id}`} className="block relative h-[240px] overflow-hidden bg-zinc-950">
                         {primaryImage ? (
@@ -197,7 +197,7 @@ export default function Home() {
                         )}
                         {/* Overlay Gradient */}
                         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80"></div>
-                        
+
                         {/* Status Badge */}
                         <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-semibold border border-white/10">
                           {car.condition}
@@ -224,20 +224,20 @@ export default function Home() {
 
                         {/* ONE-CLICK CONTACT BUTTONS (Admin Controlled) */}
                         <div className="grid grid-cols-2 gap-3 mt-auto">
-                          <a 
-                            href={`tel:${ADMIN_PHONE}`} 
+                          <a
+                            href={`tel:${ADMIN_PHONE}`}
                             className="bg-white text-black font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-zinc-200 active:scale-95 transition-all shadow-[0_0_15px_rgba(255,255,255,0.05)]"
                           >
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 00-9-9v2c3.9 0 7.1 3.1 7 7z"/><path d="M15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z"/></svg>
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.3-1.1-.5-2.3-.5-3.5 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1zM19 12h2a9 9 0 00-9-9v2c3.9 0 7.1 3.1 7 7z" /><path d="M15 12h2c0-2.8-2.2-5-5-5v2c1.7 0 3 1.3 3 3z" /></svg>
                             Call Dealer
                           </a>
-                          <a 
-                            href={ADMIN_TELEGRAM} 
-                            target="_blank" 
+                          <a
+                            href={ADMIN_TELEGRAM}
+                            target="_blank"
                             rel="noopener noreferrer"
                             className="bg-[#2AABEE] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-[#229ED9] active:scale-95 transition-all shadow-[0_0_15px_rgba(42,171,238,0.2)]"
                           >
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.18-.08-.05-.19-.02-.27 0-.11.03-1.84 1.18-5.21 3.45-.49.33-.94.5-1.34.49-.44-.01-1.28-.24-1.9-.44-.77-.25-1.38-.38-1.33-.8.03-.22.34-.44.93-.68 3.63-1.58 6.05-2.63 7.27-3.13 3.46-1.42 4.18-1.68 4.65-1.69.1 0 .34.02.47.12.11.08.15.2.16.35-.01.12-.02.26-.04.42z"/></svg>
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.18-.08-.05-.19-.02-.27 0-.11.03-1.84 1.18-5.21 3.45-.49.33-.94.5-1.34.49-.44-.01-1.28-.24-1.9-.44-.77-.25-1.38-.38-1.33-.8.03-.22.34-.44.93-.68 3.63-1.58 6.05-2.63 7.27-3.13 3.46-1.42 4.18-1.68 4.65-1.69.1 0 .34.02.47.12.11.08.15.2.16.35-.01.12-.02.26-.04.42z" /></svg>
                             Telegram
                           </a>
                         </div>
@@ -249,7 +249,7 @@ export default function Home() {
 
               {hasMore && (
                 <div className="mt-16 flex justify-center">
-                  <button 
+                  <button
                     onClick={handleLoadMore}
                     disabled={isLoadingMore}
                     className="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 text-white font-bold px-8 py-4 rounded-xl hover:bg-zinc-800 transition-all shadow-xl disabled:opacity-50 flex items-center gap-3"

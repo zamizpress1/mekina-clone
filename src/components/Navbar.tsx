@@ -36,7 +36,7 @@ export default function Navbar() {
     <>
       <nav className="fixed top-0 w-full bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800 z-50">
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-          
+
           {/* Logo */}
           <Link href="/" className="text-xl font-bold text-white tracking-tight">
             Mekina<span className="text-green-500">Clone</span>
@@ -44,7 +44,7 @@ export default function Navbar() {
 
           {/* Navigation Links */}
           <div className="flex items-center gap-4 md:gap-6">
-            
+
             <Link href="/saved" className="text-zinc-400 hover:text-red-400 transition flex items-center gap-1.5 font-medium text-sm">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
               <span className="hidden md:inline">Saved</span>
@@ -52,10 +52,10 @@ export default function Navbar() {
 
             <div className="w-px h-6 bg-zinc-800 hidden md:block"></div>
 
-            <Link href="/post-car" className="text-zinc-300 hover:text-white text-sm font-semibold transition hidden md:block">
+            <Link href="/list-car" className="text-zinc-300 hover:text-white text-sm font-semibold transition hidden md:block">
               + Post car
             </Link>
-            
+
             {user ? (
               <div className="flex items-center gap-3">
                 {isMasterAdmin && (
@@ -64,7 +64,7 @@ export default function Navbar() {
                     Vault
                   </Link>
                 )}
-                <button 
+                <button
                   onClick={handleSignOut}
                   className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm font-semibold px-4 py-2 rounded-lg hover:bg-zinc-700 hover:text-white transition"
                 >
@@ -82,7 +82,7 @@ export default function Navbar() {
 
       {/* Floating + Post car Button */}
       <Link
-        href="/post-car"
+        href="/list-car"
         className="fixed bottom-6 right-6 z-50 bg-orange-600 hover:bg-orange-500 text-white font-bold px-5 py-3 rounded-full shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all border border-orange-400/30"
       >
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
