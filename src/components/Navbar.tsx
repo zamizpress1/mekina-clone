@@ -83,12 +83,12 @@ export default function Navbar() {
       {/* Floating + Post car Button */}
       <Link
         href="/post-car"
-        className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-400 text-zinc-950 font-bold px-5 py-3 rounded-full shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all border border-green-400/30"
+        className="fixed bottom-6 right-6 z-50 bg-orange-600 hover:bg-orange-500 text-white font-bold px-5 py-3 rounded-full shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all border border-orange-400/30"
       >
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
         </svg>
-        <span>Post car</span>
+        <span>+ Post car</span>
       </Link>
     </>
   );
