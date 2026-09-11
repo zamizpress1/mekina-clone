@@ -81,7 +81,7 @@ export default function Navbar() {
       </nav>
 
       {/* Floating + Post car Button */}
-      <a href="/list-car" className="fixed bottom-8 right-8 z-[9999] bg-orange-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-orange-700 transition-all flex items-center gap-2">
+      <a href="/post-car" className="fixed bottom-8 right-8 z-[9999] bg-orange-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-orange-700 transition-all flex items-center gap-2">
         + Post car
       </a>
     </>
