@@ -52,9 +52,9 @@ export default function Navbar() {
 
             <div className="w-px h-6 bg-zinc-800 hidden md:block"></div>
 
-            <Link href="/list-car" className="text-zinc-300 hover:text-white text-sm font-semibold transition hidden md:block">
+            <a href="/list-car" className="text-zinc-300 hover:text-white text-sm font-semibold transition hidden md:block">
               + Post car
-            </Link>
+            </a>
 
             {user ? (
               <div className="flex items-center gap-3">
@@ -81,15 +81,9 @@ export default function Navbar() {
       </nav>
 
       {/* Floating + Post car Button */}
-      <Link
-        href="/list-car"
-        className="fixed bottom-6 right-6 z-50 bg-orange-600 hover:bg-orange-500 text-white font-bold px-5 py-3 rounded-full shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all border border-orange-400/30"
-      >
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-        </svg>
-        <span>+ Post car</span>
-      </Link>
+      <a href="/list-car" className="fixed bottom-8 right-8 z-[9999] bg-orange-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-orange-700 transition-all flex items-center gap-2">
+        + Post car
+      </a>
     </>
   );
 }
