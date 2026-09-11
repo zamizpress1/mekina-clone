@@ -101,7 +101,7 @@ export default function Home() {
               <p className="text-zinc-400">Discover the best vehicles in Addis Ababa.</p>
             </div>
             <a href="/list-car" className="bg-white text-black font-bold px-8 py-3.5 rounded-xl hover:bg-zinc-200 hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] whitespace-nowrap">
-              Post a Car
+              + Post car
             </a>
           </div>
 
